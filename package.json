@@ -1,0 +1,32 @@
+{
+	"name": "kak-semestral",
+	"version": "0.0.1",
+	"description": "get started",
+	"scripts": {
+		"start": "parcel src/index.html -p 8000",
+		"build": "parcel build src/index.html --out-dir dist",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "gritsdmi",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.fel.cvut.cz/gritsdmi/b192_kaj_semestral.git"
+	},
+	"homepage": "https://gitlab.fel.cvut.cz/gritsdmi/b192_kaj_semestral",
+	"devDependencies": {
+		"parcel-plugin-clean-easy": "^1.0.2",
+		"parcel-plugin-static-files-copy": "^2.2.1",
+		"minimist": ">=1.2.2"
+	},
+	"dependencies": {
+		"phaser": "^3.22.0"
+	},
+	"parcelCleanPaths": [
+		"dist"
+	],
+	"staticFiles": {
+		"staticPath": "public",
+		"watcherGlob": "**"
+	}
+}
