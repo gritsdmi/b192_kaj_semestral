@@ -1,2 +1,2 @@
-# B192_KAJ_Semestral
+# B192_KAJ_merge_conflict is here
 
