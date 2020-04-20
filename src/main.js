@@ -10,10 +10,10 @@ const config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 200 }
+			gravity: { y: 0 }
 		}
 	},
-	scene: [GameScene, HelloWorldScene]
+	scene: [GameScene]
 }
 
 export default new Phaser.Game(config)
