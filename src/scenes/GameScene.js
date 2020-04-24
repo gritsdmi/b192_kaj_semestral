@@ -19,6 +19,7 @@ export default class GameScene extends Phaser.Scene{
 		this.stars = undefined
 		this.gameOver = false
 		this.enemy = undefined
+		this.tower = undefined
 
 	}
 
@@ -27,6 +28,12 @@ export default class GameScene extends Phaser.Scene{
 		this.load.image(GROUND_KEY, 'assets/platform.png')
 		this.load.image(STAR_KEY, 'assets/star.png')
 		this.load.image(BOMB_KEY, 'assets/bomb.png')
+		/////
+		this.load.image('tiles', 'assets/PixelArt.png')
+		this.load.tilemapTiledJSON('map', 'assets/Level_1.json')
+
+		// this.load.tilemapCSV('map', 'assets/Level_1.csv')
+		// this.load.tilemapCSV('map', 'assets/Level_1_walls.csv')
 
 		this.load.spritesheet(DUDE_KEY, 
 			'assets/dude.png',
@@ -35,7 +42,44 @@ export default class GameScene extends Phaser.Scene{
 	}
 
 	create(){
-		this.add.image(400, 300, 'sky')
+		const tileSize = 160
+		const mainScale = 0.5
+
+		// csv
+		// const map = this.add.tilemap('map',tileSize,tileSize)
+		// const tileset = map.addTilesetImage('pixel','tiles',tileSize,tileSize)
+		// const layer = map.createDynamicLayer("layer",tileset,0 ,0)//wtf name==layer??
+
+
+		//json
+		const map  = this.make.tilemap({ key: 'map' });
+		const tileset = map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
+
+		// from json
+		const floorLayer = map.createStaticLayer("floor", tileset,0,0)
+		const layer = map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
+		floorLayer.setScale(mainScale,mainScale)
+		if(layer == undefined) debugger;
+
+
+
+		// map.setLayerTileSize(tileSize,tileSize,layer)
+		layer.setScale(mainScale,mainScale)
+
+		// layer.setCollisionByProperty({ collides: true }) //doesnt work STILL
+		layer.setCollisionByExclusion([-1])
+		// layer.setCollisionBetween(0, 4); //fson not work to
+
+		const debugGraphics = this.add.graphics().setAlpha(0.75);
+			layer.renderDebug(debugGraphics, {
+			tileColor: null, // Color of non-colliding tiles
+			collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+			faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+		});
+		// console.log(map)
+
+
+		// this.add.image(400, 300, 'sky')
 		const platforms = this.createPlatforms()
 		this.player = this.createPlayer()
 		this.stars = this.createStars()
@@ -55,13 +99,19 @@ export default class GameScene extends Phaser.Scene{
 		this.cursors = this.input.keyboard.createCursorKeys()
 		//===================
 		this.enemy = this.createEnemy()
-		// this.physics.add.collider(this.enemy, platforms)
-		this.physics.add.collider(this.enemy, platforms, this.enemy.setNewRandomDirection.bind(this.enemy), null, this)
+		this.physics.add.collider(this.enemy, this.player,this.enemy.setNewRandomDirection.bind(this.enemy),null,this)
+		this.physics.add.collider(this.enemy, platforms)
+
+		this.physics.add.collider(this.player, layer)
+	}
+
+	createTilemap(){
+
 	}
 
 	createEnemy(){
 		// console.log(this)
-		let enemy = new Enemy(this,500,500,BOMB_KEY)
+		let enemy = new Enemy(this,50,450,BOMB_KEY)
 		// console.log(enemy)
 		// enemy.setBounce(0.1)
 		// enemy.body.setCollideWorldBounds(true)
@@ -167,10 +217,17 @@ export default class GameScene extends Phaser.Scene{
 			this.player.anims.play('turn')
 		}
 
-		if (this.cursors.up.isDown && this.player.body.touching.down){
-			this.player.setVelocityY(-330)
+		if (this.cursors.up.isDown
+		 // && this.player.body.touching.down
+		 ){
+			this.player.setVelocityY(-130)
+		} else if(this.cursors.down.isDown){
+			this.player.setVelocityY(130)
+		} else {
+			this.player.setVelocityY(0)
 		}
 
+		// this.enemy.body.touching
 
 	}
 }
