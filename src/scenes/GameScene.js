@@ -8,6 +8,7 @@ import myConfig from "../../public/configs/data.json"
 const DUDE_KEY = 'dude'
 const STAR_KEY = 'star'
 const BOMB_KEY = 'bomb'
+const ENEMY_KEY = 'enemy'
 
 export default class GameScene extends Phaser.Scene{
 	constructor(){
@@ -21,6 +22,7 @@ export default class GameScene extends Phaser.Scene{
 		this.enemy = undefined
 		this.tower = undefined
 		this.myConfig = undefined
+		this.currentLvlId = undefined
 	}
 
 	preload(){
@@ -42,18 +44,20 @@ export default class GameScene extends Phaser.Scene{
 			{ frameWidth: 32, frameHeight: 48 }
 		)
 
+		this.load.image('enemy','assets/Virus1.png',80,80)
+
 	}
 
 	create(){
 
 		let config = this.myConfig
 		console.log(config)
-		// let myCon = JSON.parse (this.cache.getText('myConfig'))
+		this.currentLvlId = config.lvls.lvl_1.internalLvlName
+		// console.log(this.currentLvlId)
 
 		const tileSize = 160
-		// const mainScale = config.tileScale
-		const mainScale =0.5
-		// console.log(mainScale)
+		const mainScale = config.tileScale
+		// const mainScale =0.5
 		const lvl_1 = this.make.tilemap({ key: 'lvl_1' });
 		const lvl_2 = this.make.tilemap({ key: 'lvl_2' });
 		const map = lvl_1
@@ -65,52 +69,50 @@ export default class GameScene extends Phaser.Scene{
 
 		// from json
 		const floorLayer = map.createStaticLayer("floor", tileset,0,0)
-		const layer = map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
+		const wallsLayer = map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
 		floorLayer.setScale(mainScale,mainScale)
-		if(layer == undefined) debugger;
+		if(wallsLayer == undefined) debugger;
 
 
 
-		// map.setLayerTileSize(tileSize,tileSize,layer)
-		layer.setScale(mainScale,mainScale)
+		// map.setLayerTileSize(tileSize,tileSize,wallsLayer)
+		wallsLayer.setScale(mainScale,mainScale)
 
-		// layer.setCollisionByProperty({ collides: true }) //doesnt work STILL
-		layer.setCollisionByExclusion([-1])
-		// layer.setCollisionBetween(0, 4); //fson not work to
+		// wallsLayer.setCollisionByProperty({ collides: true }) //doesnt work STILL
+		wallsLayer.setCollisionByExclusion([-1])
+		// wallsLayer.setCollisionBetween(0, 4); //fson not work to
 
 		const debugGraphics = this.add.graphics().setAlpha(0.75);
-			layer.renderDebug(debugGraphics, {
+			wallsLayer.renderDebug(debugGraphics, {
 			tileColor: null, // Color of non-colliding tiles
 			collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
 			faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
 		});
-		// console.log(map)
 
-
-		// this.add.image(400, 300, 'sky')
-		// const platforms = this.createPlatforms()
 		this.player = this.createPlayer()
-		this.stars = this.createStars()
+		// this.stars = this.createStars()
 
-		this.scoreLabel = this.createScoreLabel(16, 16, 0)
-		this.bombSpawner = new BombSpawner(this, BOMB_KEY)
-		const bombsGroup = this.bombSpawner.group
+		this.scoreLabel = this.createScoreLabel(16, 16, 0, this.currentLvlId)
+		// this.bombSpawner = new BombSpawner(this, BOMB_KEY)
+		// const bombsGroup = this.bombSpawner.group
 
 		// this.physics.add.collider(this.player, platforms)
 		// this.physics.add.collider(this.stars, platforms)
-		this.physics.add.collider(bombsGroup, layer)
-		this.physics.add.collider(this.player, bombsGroup)
+		// this.physics.add.collider(bombsGroup, layer)
+		// this.physics.add.collider(this.player, bombsGroup)
 
 
-		this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this)
+		// this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this)
 
 		this.cursors = this.input.keyboard.createCursorKeys()
 		//===================
+
+
 		this.enemy = this.createEnemy()
 		this.physics.add.collider(this.enemy, this.player,this.enemy.setNewRandomDirection.bind(this.enemy),null,this)
 		// this.physics.add.collider(this.enemy, platforms)
 
-		this.physics.add.collider(this.player, layer)
+		this.physics.add.collider(this.player, wallsLayer)
 	}
 
 	createTilemap(){
@@ -121,11 +123,8 @@ export default class GameScene extends Phaser.Scene{
 	}
 
 	createEnemy(){
-		// console.log(this)
-		let enemy = new Enemy(this,50,450,BOMB_KEY)
-		// console.log(enemy)
-		// enemy.setBounce(0.1)
-		// enemy.body.setCollideWorldBounds(true)
+		let enemy = new Enemy(this,100,450,ENEMY_KEY)
+
 		return enemy
 	}
 
@@ -196,9 +195,9 @@ export default class GameScene extends Phaser.Scene{
 		this.bombSpawner.spawn(player.x)
 	}
 
-	createScoreLabel(x, y, score) {
-		const style = { fontSize: '32px', fill: '#000' }
-		const label = new ScoreLabel(this, x, y, score, style)
+	createScoreLabel(x, y, score, currentLvl) {
+		const style = { fontSize: '32px', fill: '#fff' }
+		const label = new ScoreLabel(this, x, y, score, style,currentLvl)
 
 		this.add.existing(label)
 
