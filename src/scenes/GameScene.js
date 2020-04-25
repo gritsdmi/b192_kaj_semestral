@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import ScoreLabel from '../ui/ScoreLabel'
 import BombSpawner from "../logic/BombSpawner"
 import Enemy from "../objects/Enemy"
+// import myConfig from "../configs/config"
 
 const GROUND_KEY = 'ground'
 const DUDE_KEY = 'dude'
@@ -20,7 +21,7 @@ export default class GameScene extends Phaser.Scene{
 		this.gameOver = false
 		this.enemy = undefined
 		this.tower = undefined
-
+		// this.myConfig = undefined
 	}
 
 	preload(){
@@ -39,9 +40,21 @@ export default class GameScene extends Phaser.Scene{
 			'assets/dude.png',
 			{ frameWidth: 32, frameHeight: 48 }
 		)
+
+
+		// this.load.json('myConfig','../configs/config.json')
+
+		// in preload()
+// this.load.json('levelData', 'assets/level.json');
+
+
+// in create()
+// let data = this.cache.json.get('levelData');
 	}
 
 	create(){
+
+		let myCon = this.cache.json.get('myConfig')
 		const tileSize = 160
 		const mainScale = 0.5
 
