@@ -31,7 +31,7 @@ export default class GameScene extends Phaser.Scene{
 		this.load.image(BOMB_KEY, 'assets/bomb.png')
 		/////
 		this.load.image('tiles', 'assets/PixelArt.png')
-		this.load.tilemapTiledJSON('map', 'assets/Level_1.json')
+		this.load.tilemapTiledJSON('map', 'assets/Level_1.1.json')
 
 		// this.load.tilemapCSV('map', 'assets/Level_1.csv')
 		// this.load.tilemapCSV('map', 'assets/Level_1_walls.csv')
