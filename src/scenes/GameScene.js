@@ -3,9 +3,8 @@ import Phaser from 'phaser'
 import ScoreLabel from '../ui/ScoreLabel'
 import BombSpawner from "../logic/BombSpawner"
 import Enemy from "../objects/Enemy"
-// import myConfig from "../configs/config"
+import myConfig from "../../public/configs/data.json"
 
-const GROUND_KEY = 'ground'
 const DUDE_KEY = 'dude'
 const STAR_KEY = 'star'
 const BOMB_KEY = 'bomb'
@@ -21,15 +20,16 @@ export default class GameScene extends Phaser.Scene{
 		this.gameOver = false
 		this.enemy = undefined
 		this.tower = undefined
-		// this.myConfig = undefined
+		this.myConfig = undefined
 	}
 
 	preload(){
-		this.load.image('sky', 'assets/sky.png')
-		this.load.image(GROUND_KEY, 'assets/platform.png')
+		this.myConfig = myConfig
+
 		this.load.image(STAR_KEY, 'assets/star.png')
 		this.load.image(BOMB_KEY, 'assets/bomb.png')
 		/////
+		// TODO create function to load all lvls
 		this.load.image('tiles', 'assets/PixelArt.png')
 		this.load.tilemapTiledJSON('lvl_1', 'assets/Level_1_1.json')
 		this.load.tilemapTiledJSON('lvl_2', 'assets/level_2.json')
@@ -46,18 +46,17 @@ export default class GameScene extends Phaser.Scene{
 
 	create(){
 
-		// let myCon = this.cache.json.get('myConfig')
+		let config = this.myConfig
+		console.log(config)
+		// let myCon = JSON.parse (this.cache.getText('myConfig'))
+
 		const tileSize = 160
-		const mainScale = 0.5
+		// const mainScale = config.tileScale
+		const mainScale =0.5
+		// console.log(mainScale)
 		const lvl_1 = this.make.tilemap({ key: 'lvl_1' });
 		const lvl_2 = this.make.tilemap({ key: 'lvl_2' });
-		const map = lvl_2
-
-		// csv
-		// const map = this.add.tilemap('map',tileSize,tileSize)
-		// const tileset = map.addTilesetImage('pixel','tiles',tileSize,tileSize)
-		// const layer = map.createDynamicLayer("layer",tileset,0 ,0)//wtf name==layer??
-
+		const map = lvl_1
 
 		//json
 		// const map  = this.make.tilemap({ key: 'map' });
@@ -89,18 +88,18 @@ export default class GameScene extends Phaser.Scene{
 
 
 		// this.add.image(400, 300, 'sky')
-		const platforms = this.createPlatforms()
+		// const platforms = this.createPlatforms()
 		this.player = this.createPlayer()
 		this.stars = this.createStars()
 
 		this.scoreLabel = this.createScoreLabel(16, 16, 0)
 		this.bombSpawner = new BombSpawner(this, BOMB_KEY)
-		// const bombsGroup = this.bombSpawner.group
+		const bombsGroup = this.bombSpawner.group
 
-		this.physics.add.collider(this.player, platforms)
-		this.physics.add.collider(this.stars, platforms)
-		// this.physics.add.collider(bombsGroup, platforms)
-		// this.physics.add.collider(this.player, bombsGroup, this.hitBomb, null, this)
+		// this.physics.add.collider(this.player, platforms)
+		// this.physics.add.collider(this.stars, platforms)
+		this.physics.add.collider(bombsGroup, layer)
+		this.physics.add.collider(this.player, bombsGroup)
 
 
 		this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this)
@@ -109,13 +108,16 @@ export default class GameScene extends Phaser.Scene{
 		//===================
 		this.enemy = this.createEnemy()
 		this.physics.add.collider(this.enemy, this.player,this.enemy.setNewRandomDirection.bind(this.enemy),null,this)
-		this.physics.add.collider(this.enemy, platforms)
+		// this.physics.add.collider(this.enemy, platforms)
 
 		this.physics.add.collider(this.player, layer)
 	}
 
 	createTilemap(){
-
+		// csv
+		// const map = this.add.tilemap('map',tileSize,tileSize)
+		// const tileset = map.addTilesetImage('pixel','tiles',tileSize,tileSize)
+		// const layer = map.createDynamicLayer("layer",tileset,0 ,0)//wtf name==layer??
 	}
 
 	createEnemy(){

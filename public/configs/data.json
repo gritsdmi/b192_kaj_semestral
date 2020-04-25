@@ -1,0 +1,25 @@
+{
+	"lvls" :
+		{		
+			"lvl_1" : {
+				"fileName" : "assets/level_1.json",
+				"tilesetImage" : "assets/PixelArt.png",
+				"tilesetName" : "pixel_em",
+				"internalTilesetName" : "tiles",
+				"internalLvlName" : "lvl_1",
+				"collisionsTilesId" : [0,1,2],
+				"layers" : ["floor","walls"]
+			},
+			"lvl_2" : {
+				"fileName" : "assets/level_2.json",
+				"tilesetImage" : "assets/PixelArt.png",
+				"tilesetName" : "pixel_em",
+				"internalTilesetName" : "tiles",
+				"internalLvlName" : "lvl_2",
+				"collisionsTilesId" : [0,1,2],
+				"layers" : ["floor","walls"]
+			}
+		},
+
+	"tileScale" : "0.5"
+}

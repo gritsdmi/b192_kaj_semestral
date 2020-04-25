@@ -1,12 +1,12 @@
 import Phaser from 'phaser'
 
-import HelloWorldScene from './scenes/HelloWorldScene'
 import GameScene from './scenes/GameScene'
 
 const config = {
 	type: Phaser.AUTO,
-	width: 1000,
-	height: 800,
+	width: 1600,
+	height: 900,
+	// 1600×900
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -14,6 +14,10 @@ const config = {
 			// gravity: { y: 200 }
 		}
 	},
+	scale: {
+        // mode: Phaser.Scale.FIT,
+        // autoCenter: Phaser.Scale.CENTER_BOTH
+    },
 	scene: [GameScene]
 }
 
