@@ -31,7 +31,8 @@ export default class GameScene extends Phaser.Scene{
 		this.load.image(BOMB_KEY, 'assets/bomb.png')
 		/////
 		this.load.image('tiles', 'assets/PixelArt.png')
-		this.load.tilemapTiledJSON('map', 'assets/Level_1.1.json')
+		this.load.tilemapTiledJSON('lvl_1', 'assets/Level_1.json')
+		this.load.tilemapTiledJSON('lvl_2', 'assets/level_2.json')
 
 		// this.load.tilemapCSV('map', 'assets/Level_1.csv')
 		// this.load.tilemapCSV('map', 'assets/Level_1_walls.csv')
@@ -41,22 +42,16 @@ export default class GameScene extends Phaser.Scene{
 			{ frameWidth: 32, frameHeight: 48 }
 		)
 
-
-		// this.load.json('myConfig','../configs/config.json')
-
-		// in preload()
-// this.load.json('levelData', 'assets/level.json');
-
-
-// in create()
-// let data = this.cache.json.get('levelData');
 	}
 
 	create(){
 
-		let myCon = this.cache.json.get('myConfig')
+		// let myCon = this.cache.json.get('myConfig')
 		const tileSize = 160
 		const mainScale = 0.5
+		const lvl_1 = this.make.tilemap({ key: 'lvl_1' });
+		const lvl_2 = this.make.tilemap({ key: 'lvl_2' });
+		const map = lvl_2 
 
 		// csv
 		// const map = this.add.tilemap('map',tileSize,tileSize)
@@ -65,7 +60,8 @@ export default class GameScene extends Phaser.Scene{
 
 
 		//json
-		const map  = this.make.tilemap({ key: 'map' });
+		// const map  = this.make.tilemap({ key: 'map' });
+		// const tileset = map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
 		const tileset = map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
 
 		// from json
