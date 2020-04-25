@@ -27,24 +27,11 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
 	}
 
 	setNewRandomDirection(){
-		// while(true){
-		// 	let newDir = Phaser.Math.RND.pick(this.directions)
-		// 	if(newDir!=this.direction){
-		// 		console.log("new dir set")
-		// 		this.direction = newDir
-		// 		return 
-		// 	}
-		// }
-		let min = -200
-		let max = 200
-		// console.log("here")
 		// console.log(this)
 		// this.body.setVelocity(Phaser.Math.Between(min, max),Phaser.Math.Between(min, max))
 		console.log(this.body.touching)
 		// console.log(this.body.wasTouching)
 
-
 	}
-
 
 }
