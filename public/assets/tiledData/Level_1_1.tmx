@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="10" height="8" tilewidth="160" tileheight="160" infinite="0" nextlayerid="7" nextobjectid="26">
+ <editorsettings>
+  <export target="../Level_1_1.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="pixel_em" tilewidth="160" tileheight="160" tilecount="8" columns="4">
+  <image source="../PixelArt.png" width="640" height="320"/>
+ </tileset>
+ <layer id="2" name="floor" width="10" height="8">
+  <data encoding="base64">
+   BwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAA=
+  </data>
+ </layer>
+ <layer id="1" name="walls" width="10" height="8">
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAAAAAUAAAA=
+  </data>
+ </layer>
+ <objectgroup id="5" name="path">
+  <object id="15" name="movePoint" x="0" y="0" width="160" height="160"/>
+  <object id="16" name="movePoint" x="320" y="0" width="160" height="160"/>
+  <object id="17" name="movePoint" x="320" y="1120" width="160" height="160"/>
+  <object id="18" name="movePoint" x="640" y="1120" width="160" height="160"/>
+  <object id="19" name="movePoint" x="640" y="0" width="160" height="160"/>
+  <object id="20" name="movePoint" x="960" y="0" width="160" height="160"/>
+  <object id="21" name="movePoint" x="960" y="1120" width="160" height="160"/>
+  <object id="22" name="movePoint" x="1280" y="1120" width="160" height="160"/>
+  <object id="23" name="movePoint" x="1280" y="0" width="160" height="160"/>
+  <object id="24" name="movePoint" x="1440" y="0" width="160" height="160"/>
+  <object id="25" name="spawnPoint" x="78" y="1044">
+   <point/>
+  </object>
+ </objectgroup>
+ <layer id="6" name="path" width="10" height="8">
+  <data encoding="base64">
+   CAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=
+  </data>
+ </layer>
+</map>

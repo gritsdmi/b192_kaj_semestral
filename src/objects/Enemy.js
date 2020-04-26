@@ -27,4 +27,8 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
 		// console.log(this.body.touching)
 	}
 
+	getPosition(){
+		// return {this.body.x,this.body.y}
+	}
+
 }
