@@ -24,6 +24,8 @@ export default class GameScene extends Phaser.Scene{
 		this.myConfig = undefined
 		this.currentLvlId = undefined
 		this.pathPoints = undefined
+		this.pathLayerObjects = undefined
+		this.mainScale = undefined
 	}
 
 	preload(){
@@ -57,7 +59,7 @@ export default class GameScene extends Phaser.Scene{
 		// console.log(this.currentLvlId)
 
 		const tileSize = 160
-		const mainScale = config.tileScale
+		this.mainScale = config.tileScale
 		// const mainScale =0.5
 		const lvl_1 = this.make.tilemap({ key: 'lvl_1' });
 		const lvl_2 = this.make.tilemap({ key: 'lvl_2' });
@@ -71,8 +73,8 @@ export default class GameScene extends Phaser.Scene{
 		// from json
 		const floorLayer = map.createStaticLayer("floor", tileset,0,0)
 		const wallsLayer = map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
-		floorLayer.setScale(mainScale,mainScale)
-		wallsLayer.setScale(mainScale,mainScale)
+		floorLayer.setScale(this.mainScale,this.mainScale)
+		wallsLayer.setScale(this.mainScale,this.mainScale)
 		// map.setLayerTileSize(tileSize,tileSize,wallsLayer)
 
 //Tiles collisoins rules
@@ -81,14 +83,10 @@ export default class GameScene extends Phaser.Scene{
 		// wallsLayer.setCollisionBetween(0, 4); //json not work to
 
 ///////////////////////////////////////////////////
-		let pathLayerObjects = map.getObjectLayer('path')['objects']
-		console.log(pathLayerObjects) //points is here 
-		// pathLayer.setScale(mainScale,mainScale)
-		// console.log(pathLayer[1].x,pathLayer[1].y)
-		// for(let i =0; i < 10;i++){
-		// 	console.log(pathLayer[i].x,pathLayer[i].y)
-		// }
-		// this.pathPoints = pathLayer
+		this.pathLayerObjects = map.getObjectLayer('path')['objects']
+		// console.log(pathLayerObjects) //points is here!!!!!!!!
+		this.pathLayerObjects.info = this.pathLayerObjects.length -1
+		
 //////////////////////////////////////////////////////////
 		// const pathLayer = map.createStaticLayer("path", tileset,0,0)
 		// pathLayer.setScale(mainScale,mainScale)
@@ -100,32 +98,16 @@ export default class GameScene extends Phaser.Scene{
 		// containsPoint(x, y)
 		// pathLayer.updatePixelXY()
 
-	
-	
-
-
-
-
 		this.player = this.createPlayer()
 
 		this.scoreLabel = this.createScoreLabel(16, 16, 0, this.currentLvlId)
-		// this.bombSpawner = new BombSpawner(this, BOMB_KEY)
-		// const bombsGroup = this.bombSpawner.group
-
-		// this.physics.add.collider(this.player, platforms)
-		// this.physics.add.collider(this.stars, platforms)
-		// this.physics.add.collider(bombsGroup, layer)
-		// this.physics.add.collider(this.player, bombsGroup)
-
-
-		// this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this)
 
 		this.cursors = this.input.keyboard.createCursorKeys()
 		//===================
 
 
 		this.enemy = this.createEnemy()
-		this.physics.add.collider(this.enemy, this.player,this.enemy.setNewRandomDirection.bind(this.enemy),null,this)
+		this.physics.add.collider(this.enemy, this.player)
 		// this.physics.add.collider(this.enemy, platforms)
 
 		this.physics.add.collider(this.player, wallsLayer)
@@ -142,13 +124,6 @@ export default class GameScene extends Phaser.Scene{
 		// 	collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
 		// 	faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
 		// });
-		
-		//TODO containers??
-		console.log(this.enemy.body)
-		// this.physics.moveTo(this.enemy.body,pathLayerObjects[0])//work but not seen
-		// this.enemy.setDepth(10)
-		console.log()
-
 	}
 
 	createTilemap(){
@@ -273,10 +248,10 @@ export default class GameScene extends Phaser.Scene{
 			this.player.setVelocityY(0)
 		}
 
-		this.enemy.body.setVelocityY(-40)
-		// console.log(this.enemy.x,this.enemy.y)
-		// debugger
-		// this.enemy.body.touching
+		// this.enemy.body.setVelocityY(-40)
+		// this.physics.accelerateTo(this.enemy,40,40,10,40)
+		// this.physics.moveTo(this.enemy,40,40,40)
 
+		this.enemy.update()
 	}
 }
