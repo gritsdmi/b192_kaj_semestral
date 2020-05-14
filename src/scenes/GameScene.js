@@ -6,6 +6,7 @@ import Enemy from "../objects/Enemy"
 import Tower from "../objects/Tower"
 import Bullet from "../objects/Bullet"
 import EnemySpawner from "../logic/EnemySpawner"
+import TowerController from "../logic/TowerController"
 import myConfig from "../../public/configs/data.json"
 
 const DUDE_KEY = 'dude'
@@ -88,12 +89,12 @@ export default class GameScene extends Phaser.Scene{
 		wallsLayer.setScale(this.mainScale,this.mainScale)
 		// this.map.setLayerTileSize(tileSize,tileSize,wallsLayer)
 
-///////////////// Tiles collisoins rules
+///////////////// Tiles collisoins rules //////////////////////
 		// wallsLayer.setCollisionByProperty({ collides: true }) //doesnt work STILL
 		wallsLayer.setCollisionByExclusion([-1])
 		// wallsLayer.setCollisionBetween(0, 4); //json not work to
 
-///// PATH_OBJECTS_LAYER //////
+////////////// PATH_OBJECTS_LAYER ////////////////
 		this.pathLayerObjects = this.map.getObjectLayer('path')['objects']
 		// console.log(pathLayerObjects) //points is here!!!!!!!!
 		this.pathLayerObjects.info = this.pathLayerObjects.length -1

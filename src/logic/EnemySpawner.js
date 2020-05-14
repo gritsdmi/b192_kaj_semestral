@@ -7,14 +7,14 @@ export default class EnemySpawner {
 		this.scene = scene
 		this.key = enemyKey
 		this.spawnDelay = 2000
-		this.startDelay = 1
+		this.startDelay = 1000
 		this.startDelay = this.startDelay * (-1)
 
 		// this._group = this.scene.physics.add.group()
 
 		this.scene.time.addEvent({
 			delay: this.spawnDelay,
-			repeat: 50,
+			repeat: 5,
 			callback: ()=>{
 			    // spawn a bullet
 			    this.spawn()
