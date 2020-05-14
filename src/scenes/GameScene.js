@@ -3,6 +3,9 @@ import Phaser from 'phaser'
 import ScoreLabel from '../ui/ScoreLabel'
 import BombSpawner from "../logic/BombSpawner"
 import Enemy from "../objects/Enemy"
+import Tower from "../objects/Tower"
+import Bullet from "../objects/Bullet"
+import EnemySpawner from "../logic/EnemySpawner"
 import myConfig from "../../public/configs/data.json"
 
 const DUDE_KEY = 'dude'
@@ -20,19 +23,23 @@ export default class GameScene extends Phaser.Scene{
 		this.stars = undefined
 		this.gameOver = false
 		this.enemy = undefined
-		this.tower = undefined
+		this.enemies = undefined
+		this.towers = undefined
 		this.myConfig = undefined
 		this.currentLvlId = undefined
 		this.pathPoints = undefined
 		this.pathLayerObjects = undefined
 		this.mainScale = undefined
+		this.map = undefined
+		this.marker = undefined
+		this.bullets = undefined
+		this.enemySpawner = undefined
 	}
 
 	preload(){
 		this.myConfig = myConfig
 
 		this.load.image(STAR_KEY, 'assets/star.png')
-		this.load.image(BOMB_KEY, 'assets/bomb.png')
 		/////
 		// TODO create function to load all lvls
 		this.load.image('tiles', 'assets/PixelArt.png')
@@ -48,66 +55,60 @@ export default class GameScene extends Phaser.Scene{
 		)
 
 		this.load.image('enemy','assets/Virus1.png',80,80)
+		this.load.image('tower','assets/star.png',80,80)
+		this.load.image('bomb', 'assets/bomb.png')
+
 
 	}
 
+
+
 	create(){
 
-		let config = this.myConfig
-		console.log(config)
+		const config = this.myConfig
+		// console.log(config)
 		this.currentLvlId = config.lvls.lvl_1.internalLvlName
-		// console.log(this.currentLvlId)
 
 		const tileSize = 160
 		this.mainScale = config.tileScale
 		// const mainScale =0.5
-		const lvl_1 = this.make.tilemap({ key: 'lvl_1' });
+		const lvl_1 = this.make.tilemap({ key: this.currentLvlId });
 		const lvl_2 = this.make.tilemap({ key: 'lvl_2' });
-		const map = lvl_1
+		this.map = lvl_1
 
 		//json
 		// const map  = this.make.tilemap({ key: 'map' });
-		// const tileset = map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
-		const tileset = map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
+		// const tileset = this.map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
+		const tileset = this.map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
 
 		// from json
-		const floorLayer = map.createStaticLayer("floor", tileset,0,0)
-		const wallsLayer = map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
+		const floorLayer = this.map.createStaticLayer("floor", tileset,0,0)
+		const wallsLayer = this.map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
 		floorLayer.setScale(this.mainScale,this.mainScale)
 		wallsLayer.setScale(this.mainScale,this.mainScale)
-		// map.setLayerTileSize(tileSize,tileSize,wallsLayer)
+		// this.map.setLayerTileSize(tileSize,tileSize,wallsLayer)
 
-//Tiles collisoins rules
+///////////////// Tiles collisoins rules
 		// wallsLayer.setCollisionByProperty({ collides: true }) //doesnt work STILL
 		wallsLayer.setCollisionByExclusion([-1])
 		// wallsLayer.setCollisionBetween(0, 4); //json not work to
 
-///////////////////////////////////////////////////
-		this.pathLayerObjects = map.getObjectLayer('path')['objects']
+///// PATH_OBJECTS_LAYER //////
+		this.pathLayerObjects = this.map.getObjectLayer('path')['objects']
 		// console.log(pathLayerObjects) //points is here!!!!!!!!
 		this.pathLayerObjects.info = this.pathLayerObjects.length -1
-		
+		this.pathLayerObjects = this.createPathPointsForEnemies()
 //////////////////////////////////////////////////////////
-		// const pathLayer = map.createStaticLayer("path", tileset,0,0)
-		// pathLayer.setScale(mainScale,mainScale)
 		
 		// console.log(pathLayer.tileToWorldXY(2,2))
-		// console.log(pathLayer)
-		// console.log(pathLayer.tilesets)
-
 		// containsPoint(x, y)
 		// pathLayer.updatePixelXY()
 
 		this.player = this.createPlayer()
-
 		this.scoreLabel = this.createScoreLabel(16, 16, 0, this.currentLvlId)
-
 		this.cursors = this.input.keyboard.createCursorKeys()
 		//===================
 
-
-		this.enemy = this.createEnemy()
-		this.physics.add.collider(this.enemy, this.player)
 		// this.physics.add.collider(this.enemy, platforms)
 
 		this.physics.add.collider(this.player, wallsLayer)
@@ -119,11 +120,48 @@ export default class GameScene extends Phaser.Scene{
 			faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
 		});
 
-		// 	pathLayer.renderDebug(debugGraphics, {
-		// 	tileColor: null, // Color of non-colliding tiles
-		// 	collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-		// 	faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-		// });
+////////// CREATING ENEMIES ////////// 
+
+		this.enemySpawner = new EnemySpawner(this,ENEMY_KEY);
+		this.enemies = this.physics.add.group({classType:Enemy, runChildUpdate:true})
+		this.enemy = this.createEnemy()
+		this.physics.add.collider(this.enemy, this.player)
+
+
+/////////// TOWERS /////////////
+		this.towers = []
+		let tower = new Tower(this,120,120,'tower')
+		this.towers.push(tower)
+
+/////////// BULLETS /////////////////
+		this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true })
+		this.physics.add.overlap(this.enemies,this.bullets,this.enemy.hit)
+
+/////////// MARKER /////////////
+		let markerBlankLayer = this.map.createBlankDynamicLayer('layer1',tileset)
+		markerBlankLayer.setScale(this.mainScale)
+		this.marker = this.add.graphics()
+		this.marker.lineStyle(5, 0xffffff, 1)
+		this.marker.strokeRect(0, 0, this.map.tileWidth * markerBlankLayer.scaleX, this.map.tileHeight * markerBlankLayer.scaleY);
+
+	}
+
+	createPathPointsForEnemies(){
+		let movePoints = this.pathLayerObjects
+		
+		movePoints = movePoints.filter(point => point.type == "move")
+		movePoints.sort(function(a,b) {
+			return a.name - b.name
+		})
+		movePoints = movePoints.filter(point => point.x = (point.x + point.width/2)*this.mainScale)
+		movePoints = movePoints.filter(point => point.y = (point.y + point.height/2)*this.mainScale)
+
+		return movePoints
+	}
+
+	createBullet(autor,aim){
+		let bullet = new Bullet(this,autor,aim,'bomb')
+		this.bullets.add(bullet)
 	}
 
 	createTilemap(){
@@ -135,7 +173,7 @@ export default class GameScene extends Phaser.Scene{
 
 	createEnemy(){
 		let enemy = new Enemy(this,40,450,ENEMY_KEY)
-
+		this.enemies.add(enemy)
 		return enemy
 	}
 
@@ -252,6 +290,27 @@ export default class GameScene extends Phaser.Scene{
 		// this.physics.accelerateTo(this.enemy,40,40,10,40)
 		// this.physics.moveTo(this.enemy,40,40,40)
 
-		this.enemy.update()
+		// this.enemy.update()
+		// this.towers.forEach( function(element, index) {
+		// 	element.update()
+		// });
+
+////////// BULLETS ////////////////
+		// console.log(this.bullets)
+		// for (let i = 0; i < this.bullets.length; i++) {
+		// 	if(this.bullets[i].update()){}
+		// }
+
+
+//////////MARKER///////////
+		var worldPoint = this.input.activePointer.positionToCamera(this.cameras.main);
+
+		// Rounds down to nearest tile
+		var pointerTileX = this.map.worldToTileX(worldPoint.x);
+		var pointerTileY = this.map.worldToTileY(worldPoint.y);
+
+		// Snap to tile coordinates, but in world space
+		this.marker.x = this.map.tileToWorldX(pointerTileX);
+		this.marker.y = this.map.tileToWorldY(pointerTileY);
 	}
 }
