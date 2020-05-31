@@ -35,6 +35,9 @@ export default class GameScene extends Phaser.Scene{
 		this.marker = undefined
 		this.bullets = undefined
 		this.enemySpawner = undefined
+		this.towerController = undefined
+
+		this.wallsLayer = undefined
 	}
 
 	preload(){
@@ -55,8 +58,8 @@ export default class GameScene extends Phaser.Scene{
 			{ frameWidth: 32, frameHeight: 48 }
 		)
 
-		this.load.image('enemy','assets/Virus1.png',80,80)
-		this.load.image('tower','assets/star.png',80,80)
+		this.load.image('enemy','assets/virus3.png',80,80)
+		this.load.image('tower','assets/tower.png',80,80)
 		this.load.image('bomb', 'assets/bomb.png')
 
 
@@ -84,14 +87,14 @@ export default class GameScene extends Phaser.Scene{
 
 		// from json
 		const floorLayer = this.map.createStaticLayer("floor", tileset,0,0)
-		const wallsLayer = this.map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
+		this.wallsLayer = this.map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
 		floorLayer.setScale(this.mainScale,this.mainScale)
-		wallsLayer.setScale(this.mainScale,this.mainScale)
+		this.wallsLayer.setScale(this.mainScale,this.mainScale)
 		// this.map.setLayerTileSize(tileSize,tileSize,wallsLayer)
 
 ///////////////// Tiles collisoins rules //////////////////////
 		// wallsLayer.setCollisionByProperty({ collides: true }) //doesnt work STILL
-		wallsLayer.setCollisionByExclusion([-1])
+		this.wallsLayer.setCollisionByExclusion([-1])
 		// wallsLayer.setCollisionBetween(0, 4); //json not work to
 
 ////////////// PATH_OBJECTS_LAYER ////////////////
@@ -112,10 +115,10 @@ export default class GameScene extends Phaser.Scene{
 
 		// this.physics.add.collider(this.enemy, platforms)
 
-		this.physics.add.collider(this.player, wallsLayer)
+		this.physics.add.collider(this.player, this.wallsLayer)
 
 		const debugGraphics = this.add.graphics().setAlpha(0.75);
-			wallsLayer.renderDebug(debugGraphics, {
+			this.wallsLayer.renderDebug(debugGraphics, {
 			tileColor: null, // Color of non-colliding tiles
 			collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
 			faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
@@ -130,20 +133,23 @@ export default class GameScene extends Phaser.Scene{
 
 
 /////////// TOWERS /////////////
-		this.towers = []
+		this.towers = this.physics.add.group({classType:Tower, runChildUpdate:true})
 		let tower = new Tower(this,120,120,'tower')
-		this.towers.push(tower)
+		this.towers.add(tower)
+		this.towerController = new TowerController(this)
+		this.physics.add.overlap(this.towers,this.towers,this.towerController.overlapAnotherTower)
+
 
 /////////// BULLETS /////////////////
 		this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true })
 		this.physics.add.overlap(this.enemies,this.bullets,this.enemy.hit)
 
 /////////// MARKER /////////////
-		let markerBlankLayer = this.map.createBlankDynamicLayer('layer1',tileset)
-		markerBlankLayer.setScale(this.mainScale)
+		// let markerBlankLayer = this.map.createBlankDynamicLayer('layer1',tileset)
+		// markerBlankLayer.setScale(this.mainScale)
 		this.marker = this.add.graphics()
 		this.marker.lineStyle(5, 0xffffff, 1)
-		this.marker.strokeRect(0, 0, this.map.tileWidth * markerBlankLayer.scaleX, this.map.tileHeight * markerBlankLayer.scaleY);
+		this.marker.strokeRect(0, 0, this.map.tileWidth * this.wallsLayer.scaleX, this.map.tileHeight * this.wallsLayer.scaleY);
 
 	}
 
@@ -291,10 +297,6 @@ export default class GameScene extends Phaser.Scene{
 		// this.physics.accelerateTo(this.enemy,40,40,10,40)
 		// this.physics.moveTo(this.enemy,40,40,40)
 
-		// this.enemy.update()
-		// this.towers.forEach( function(element, index) {
-		// 	element.update()
-		// });
 
 ////////// BULLETS ////////////////
 		// console.log(this.bullets)
@@ -305,13 +307,14 @@ export default class GameScene extends Phaser.Scene{
 
 //////////MARKER///////////
 		var worldPoint = this.input.activePointer.positionToCamera(this.cameras.main);
-
 		// Rounds down to nearest tile
 		var pointerTileX = this.map.worldToTileX(worldPoint.x);
 		var pointerTileY = this.map.worldToTileY(worldPoint.y);
 
 		// Snap to tile coordinates, but in world space
-		this.marker.x = this.map.tileToWorldX(pointerTileX);
-		this.marker.y = this.map.tileToWorldY(pointerTileY);
+		this.marker.x = this.map.tileToWorldX(pointerTileX,this.cameras.main,this.wallsLayer);
+		this.marker.y = this.map.tileToWorldY(pointerTileY,this.cameras.main,this.wallsLayer);
+
+		this.towerController.update()
 	}
 }

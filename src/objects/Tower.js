@@ -10,9 +10,20 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 		scene.add.existing(this)
 		this.body.bodyType = "tower"
 		this.damage = 10
+		this.setScale(scene.myConfig.tileScale)//scales texture and body
+		this.active = true
+		this.placable = true
+		this.startPosX = x
+		this.startPosY = y
+		this.price = 50
 
-		let test = this.scene.add.graphics();
-		test.fillCircle(x,y,this.radius)
+
+		let letters = "test"
+		let text = this.scene.add.text(x-35, y + 30, letters);
+	    text.font = "Arial";
+	    // text.setOrigin(0.5);
+	    text.setText( "another")
+		this.text = text
 		
 		this.controlColliderDelay = 500;
 		this.shootDelay = 1000;
@@ -27,20 +38,39 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 	}
 
 	update(){
-		// console.log("upd")
-		// if(this.scene.enemy.)
+		this.updateText()
+	}
+
+	updateText(){
+		if(this.active == true){
+	    	this.text.setText( "active")
+			this.clearTint()
+		} else if(this.active == false) {
+	    	this.text.setText( "non active")
+		    this.setTint(0x222222);
+		}
+		this.text.setPosition(this.x-35,this.y+30)
 	}
 
 	controlCollider(tower){
-		// console.log(this.scene.physics.overlapCirc(this.x,this.y,100,true,false))
 		let collidedObj = this.scene.physics.overlapCirc(this.x,this.y,this.radius,true,false)
-
-		for (let i = 0; i < collidedObj.length; i++ ){
-			if(collidedObj[i].bodyType == "enemy"){
-				// console.log("see enemy")
-				tower.scene.createBullet(tower,collidedObj[i])
-				break
+		if(this.active == true){
+			for (let i = 0; i < collidedObj.length; i++ ){
+				if(collidedObj[i].bodyType == "enemy"){
+					tower.scene.createBullet(tower,collidedObj[i])
+					break
+				}
 			}
 		}
+	}
+
+	resetPosition(){
+		//работает!!
+		this.setX (this.startPosX)
+		this.setY (this.startPosY)
+	}
+	
+	resetPlacable(bool){
+		this.placable = bool 
 	}
 }

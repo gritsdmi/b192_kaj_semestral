@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 export default class Enemy extends Phaser.GameObjects.Sprite{
 	constructor(scene, x,y,sprite){
 		super(scene, x,y,sprite)
+		this.scene = scene
 		this.health = 30
 
 		scene.physics.world.enable(this);
@@ -84,6 +85,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
 		enemy.health = enemy.health - bullet.damage;
 		bullet.destroy()
 		if(enemy.health <= 0){
+			enemy.scene.scoreLabel.add(10)
 			enemy.destroy();
 		}
 	}
