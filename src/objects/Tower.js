@@ -73,4 +73,8 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 	resetPlacable(bool){
 		this.placable = bool 
 	}
+
+	getPrice(){
+		return this.price
+	}
 }

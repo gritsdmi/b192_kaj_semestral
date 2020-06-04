@@ -11,7 +11,14 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 		this.towers = []
 		this.actualSelect = ""
 		this.sprites = this.createUITowers()
-		this.scene.scoreLabel.add(50)
+		this.scene.scoreLabel.add(500)
+	}
+
+	makeTextPrice(tower){
+		// console.log(tower.getData("price"))
+		let price = "Price:".concat(tower.getData("price"))
+		let text = this.scene.add.text(tower.x-35, tower.y + 50, price)
+		return text
 	}
 
 	createUITowers(){
@@ -26,6 +33,10 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 
 		tower1.setScale(this.scene.myConfig.tileScale)//scales texture and body
 		tower2.setScale(this.scene.myConfig.tileScale)//scales texture and body
+		tower1.setData({price:"20"})
+		tower2.setData({price:"30"})
+		let textPrice1 = this.makeTextPrice(tower1)
+		let textPrice2 = this.makeTextPrice(tower2)
 		this.towers.push(tower1)
 		this.towers.push(tower2)
 
@@ -73,7 +84,7 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 
 		let first_click_hook = false
 		let sceneTowers = this.scene.towers
-		this.scene.input.on('pointerdown', (pointer) => {
+		this.scene.input.on('pointerup', (pointer) => {
 			if(this.clicked == true){
 				if(first_click_hook == false){
 					first_click_hook = true
@@ -88,16 +99,16 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 						if(cursorOnTower == false){
 							this.placeTower(pointer)
 						} else {
-							// console.log("obsazeno")
+							console.log("obsazeno")
 						}
 					} else {
-						// console.log("miss click")
+						console.log("miss click")
 					}
 					first_click_hook = false
 					this.clicked = false
 				}
 			} else {
-				// console.log("not the time")
+				console.log("not the time")
 				first_click_hook = false
 			}
 		},this);
@@ -125,11 +136,12 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 		if(this.actualSelect != ""){
 			let tower = new Tower(this.scene,pos.x,pos.y,this.actualSelect)
 			this.scene.towers.add(tower)
+			this.scene.scoreLabel.sub(tower.getPrice())
 		}
 	}
 
 	update(){
-		if(this.scene.scoreLabel.getScore() < 20){
+		if(this.scene.scoreLabel.getScore() < this.towers[0].getData("price")){
 			this.towers[0].setTint(0x333333)
 			this.towers[0].disableInteractive()
 		} else {
