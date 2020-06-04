@@ -11,6 +11,7 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 		this.towers = []
 		this.actualSelect = ""
 		this.sprites = this.createUITowers()
+		this.scene.scoreLabel.add(50)
 	}
 
 	createUITowers(){
@@ -30,36 +31,45 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 
 
 		tower1.on('pointerover', function (event) {
-		    this.setTint(0x555555);
+		    this.setScale(0.6)
 		});
 
 		tower1.on('pointerout', function (event) {
-		    this.clearTint();
+		    this.setScale(this.scene.myConfig.tileScale)
 		});
 
 		tower1.on('pointerdown', function (event) {
+			this.setScale(0.45)
+		});
+
+		tower1.on('pointerup', function (event) {
+			this.resetScale(this.towers[0])
 			this.clicked = true
-	        // this.clearTint();
 	        this.actualSelect = "tower"
 			console.log("clicked", this.clicked, this.actualSelect)
 		},this);
 
 		tower2.on('pointerover', function (event) {
-		    this.setTint(0x555555);
+			this.setScale(0.6)
 		});
 
 		tower2.on('pointerout', function (event) {
-		    this.clearTint();
+		    this.setScale(this.scene.myConfig.tileScale)
 		});
 
 		tower2.on('pointerdown', function (event) {
+			this.setScale(0.45)
+		});
+
+		tower2.on('pointerup', function (event) {
+			this.resetScale(this.towers[1])
 			this.clicked = true
 	        this.actualSelect = "tower1"
 			console.log("clicked", this.clicked, this.actualSelect)
 		},this);
 
 
-		this.cursor = this.scene.input.activePointer.positionToCamera(this.scene.cameras.main);
+		// this.cursor = this.scene.input.activePointer.positionToCamera(this.scene.cameras.main);
 
 		let first_click_hook = false
 		let sceneTowers = this.scene.towers
@@ -90,10 +100,13 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 				// console.log("not the time")
 				first_click_hook = false
 			}
-
 		},this);
 
 		return [tower1,tower2]
+	}
+
+	resetScale(obj){
+		obj.setScale(this.scene.myConfig.tileScale)
 	}
 
 	getTileCoords(pointer){
