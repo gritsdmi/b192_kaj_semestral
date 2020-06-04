@@ -60,6 +60,7 @@ export default class GameScene extends Phaser.Scene{
 
 		this.load.image('enemy','assets/virus3.png',80,80)
 		this.load.image('tower','assets/tower.png',80,80)
+		this.load.image('tower1','assets/tower1.png',80,80)
 		this.load.image('bomb', 'assets/bomb.png')
 
 
@@ -134,10 +135,9 @@ export default class GameScene extends Phaser.Scene{
 
 /////////// TOWERS /////////////
 		this.towers = this.physics.add.group({classType:Tower, runChildUpdate:true})
-		let tower = new Tower(this,120,120,'tower')
+		let tower = new Tower(this,120,120,'tower1')
 		this.towers.add(tower)
 		this.towerController = new TowerController(this)
-		this.physics.add.overlap(this.towers,this.towers,this.towerController.overlapAnotherTower)
 
 
 /////////// BULLETS /////////////////

@@ -24,4 +24,8 @@ export default class ScoreLabel extends Phaser.GameObjects.Text{
 	updateScoreText(){
 		this.setText(formatScore(this.score, this.lvl))
 	}
+	
+	getScore(){
+		return this.score
+	}
 }

@@ -6,28 +6,28 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 		super(scene,"towerController")
 		this.scene = scene
 		scene.add.existing(this)
-		this.offset = 40
-
 
 		//tower image pos x:100 y:900
 		this.towers = []
-		this.clicked = undefined
+		this.actualSelect = ""
 		this.sprites = this.createUITowers()
 	}
 
 	createUITowers(){
+		//нажал на картинку
+		//подсветил места, на которые возможно поставить башню!!!!
+		//потом нажал на стену 
+		//после клика на поле проверил: walls layer has tile on XY, another towers
 
+		//2 типа башенок: tower.png i tower1.png
 		var tower1 = this.scene.add.sprite(120, 760, 'tower').setInteractive({ cursor: 'pointer' });
-		var tower2 = this.scene.add.sprite(200, 760, 'tower').setInteractive({ cursor: 'pointer' });
-		var tower3 = new Tower(this.scene,120,200,'tower').setInteractive({ cursor: 'pointer' });
+		var tower2 = this.scene.add.sprite(200, 760, 'tower1').setInteractive({ cursor: 'pointer' });
+
 		tower1.setScale(this.scene.myConfig.tileScale)//scales texture and body
 		tower2.setScale(this.scene.myConfig.tileScale)//scales texture and body
-		tower3.active = false;
-		this.scene.towers.add(tower3)
+		this.towers.push(tower1)
+		this.towers.push(tower2)
 
-		this.setDrag(tower1)
-		this.setDrag(tower2)
-		this.setDrag(tower3)
 
 		tower1.on('pointerover', function (event) {
 		    this.setTint(0x555555);
@@ -39,9 +39,10 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 
 		tower1.on('pointerdown', function (event) {
 			this.clicked = true
-	        this.clearTint();
-			console.log("clicked", this.clicked)
-		});
+	        // this.clearTint();
+	        this.actualSelect = "tower"
+			console.log("clicked", this.clicked, this.actualSelect)
+		},this);
 
 		tower2.on('pointerover', function (event) {
 		    this.setTint(0x555555);
@@ -53,113 +54,82 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 
 		tower2.on('pointerdown', function (event) {
 			this.clicked = true
-			console.log("clicked", this.clicked)
-		});
-
+	        this.actualSelect = "tower1"
+			console.log("clicked", this.clicked, this.actualSelect)
+		},this);
 
 
 		this.cursor = this.scene.input.activePointer.positionToCamera(this.scene.cameras.main);
-		//place image of tower somewhere
-		//control cursor cliking on this image
 
-		//after click ligth places where u can build tower
-		//create tower, ONLY if cursor placed over wall and there are not another tovers
+		let first_click_hook = false
+		let sceneTowers = this.scene.towers
+		this.scene.input.on('pointerdown', (pointer) => {
+			if(this.clicked == true){
+				if(first_click_hook == false){
+					first_click_hook = true
+				} else {
+					if(this.scene.map.hasTileAtWorldXY(pointer.x, pointer.y)){
+						let cursorOnTower = false
+						sceneTowers.children.each(function (t){
+							if(t.getBounds().contains(pointer.x,pointer.y) == true){
+								cursorOnTower = cursorOnTower | true
+							}
+						})
+						if(cursorOnTower == false){
+							this.placeTower(pointer)
+						} else {
+							// console.log("obsazeno")
+						}
+					} else {
+						// console.log("miss click")
+					}
+					first_click_hook = false
+					this.clicked = false
+				}
+			} else {
+				// console.log("not the time")
+				first_click_hook = false
+			}
+
+		},this);
+
 		return [tower1,tower2]
 	}
 
-	placeTower(tower){
-		// this.scene.input.setDraggable(tower,false);
-		tower.removeInteractive()
-		tower.active = true
+	getTileCoords(pointer){
+		let retX = 40
+		let retY = 40
+		var pointerTileX = this.scene.map.worldToTileX(pointer.x)
+		var pointerTileY = this.scene.map.worldToTileY(pointer.y)
+
+		retX += this.scene.map.tileToWorldX(pointerTileX,this.scene.cameras.main,this.scene.wallsLayer)
+		retY += this.scene.map.tileToWorldY(pointerTileY,this.scene.cameras.main,this.scene.wallsLayer)
+		return {x:retX, y:retY}
 	}
 
-	possiblePlaceTower(pointer, tower){
-		let ret = false
-
-
-	}
-
-	resetTowerPos(tower){
-		console.log("reset tower pos")
-		tower.resetPosition()
-		console.log(tower)
-	}
-
-	setDrag(tower){
-		this.scene.input.setDraggable(tower);
-		this.scene.input.dragDistanceThreshold = 1;
-
-		this.scene.input.on('dragstart', function (pointer, gameObject) {
-       		gameObject.setTint(0x999999);
-		    });
-
-	    this.scene.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-	        // Rounds down to nearest tile
-			var pointerTileX = this.scene.map.worldToTileX(pointer.x);
-			var pointerTileY = this.scene.map.worldToTileY(pointer.y);
-
-			// Snap to tile coordinates, but in world space
-			gameObject.x = this.scene.map.tileToWorldX(pointerTileX,this.scene.cameras.main,this.scene.wallsLayer);
-			gameObject.y = this.scene.map.tileToWorldY(pointerTileY,this.scene.cameras.main,this.scene.wallsLayer);
-			gameObject.x += 40
-			gameObject.y += 40
-	    });
-
-	    this.scene.input.on('dragend', function (pointer, gameObject) {
-	        gameObject.clearTint();
-	        // gameObject.possiblePlaceTower(pointer,gameObject)
-	        if(this.scene.map.hasTileAtWorldXY(pointer.x, pointer.y)) {
-				let tileUnderPointer = this.scene.map.getTileAtWorldXY(pointer.x,pointer.y,this.scene.wallsLayer)
-				if(tileUnderPointer.layer.name == "walls"){
-					if(gameObject.placable == true){
-						console.log("can place here",gameObject)
-						this.placeTower(gameObject)
-					} else {
-						this.resetTowerPos(gameObject)
-						gameObject.resetPlacable(true)
-						console.log("tower no placable")
-					}
-				} else {
-					console.log("miss2 incorrect layer")
-				}
-				// this.placeTower()
-			} else {
-				console.log("miss1 has no tile at pos")
-				this.resetTowerPos(gameObject)
-
-			}
-	    },this);
-	}
-
-	overlapAnotherTower(me,another){
-		// console.log("towers overlaps")
-		console.log(me,another)
-		// if(me.active = false){
-		// 	me.placable = false
-		// 	console.log("me placable false")
-		// }
-		if(another.active == false){
-			another.placable = false;
-			console.log("another placable false")
-
+	placeTower(pointer){
+		let pos = this.getTileCoords(pointer)
+		if(this.actualSelect != ""){
+			let tower = new Tower(this.scene,pos.x,pos.y,this.actualSelect)
+			this.scene.towers.add(tower)
 		}
 	}
 
 	update(){
-		//почему this.clicked is undefined?
+		if(this.scene.scoreLabel.getScore() < 20){
+			this.towers[0].setTint(0x333333)
+			this.towers[0].disableInteractive()
+		} else {
+			this.towers[0].clearTint()
+			this.towers[0].setInteractive({ cursor: 'pointer' })
+		}
 
-		// console.log(this.scene.map.hasTileAtWorldXY(this.cursor.x,this.cursor.y), this.clicked)
-		// debugger
-
-		// if(this.clicked == true && this.scene.map.hasTileAtWorldXY(cursor.x,cursor.y)){
-		// 	//iterate all towers, getBounds().contains(x and y from cursor) 
-		// 	console.log("iterating")
-		// 	for (let i = 0; i < this.towers.lenght(); i++){
-		// 		if(this.towers[i].getBounds().contains()){
-		// 		}
-		// 	}
-		// }
+		if(this.scene.scoreLabel.getScore() < 40){
+			this.towers[1].setTint(0x333333)
+			this.towers[1].disableInteractive()
+		} else {
+			this.towers[1].clearTint()
+			this.towers[1].setInteractive({ cursor: 'pointer' })
+		} 
 	}
-
-
 }
