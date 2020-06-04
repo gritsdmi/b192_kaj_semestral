@@ -25,7 +25,6 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 	    text.setText( "another")
 		this.text = text
 		
-		this.controlColliderDelay = 500;
 		this.shootDelay = 1000;
 		this.scene.time.addEvent({
 			delay: this.shootDelay,
@@ -64,8 +63,11 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 		}
 	}
 
+	createBullet(){
+		console.log('')
+	}
+
 	resetPosition(){
-		//работает!!
 		this.setX (this.startPosX)
 		this.setY (this.startPosY)
 	}

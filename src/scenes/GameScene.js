@@ -4,6 +4,7 @@ import ScoreLabel from '../ui/ScoreLabel'
 import BombSpawner from "../logic/BombSpawner"
 import Enemy from "../objects/Enemy"
 import Tower from "../objects/Tower"
+import CommonTower from "../objects/CommonTower"
 import Bullet from "../objects/Bullet"
 import EnemySpawner from "../logic/EnemySpawner"
 import TowerController from "../logic/TowerController"
@@ -138,6 +139,7 @@ export default class GameScene extends Phaser.Scene{
 		let tower = new Tower(this,120,120,'tower1')
 		this.towers.add(tower)
 		this.towerController = new TowerController(this)
+		let testTower = new CommonTower(this,200,200)
 
 
 /////////// BULLETS /////////////////
