@@ -34,7 +34,7 @@ Main menu vypleno jen combinaci HTML JS a CSS a to kvuli snaze spleneni pozadavk
 
 #### O pozadavcich
 Jsem se snazil splnit maxim toho co davalo smysl ohledne zvolene tematu.
-Pozadavky, ktere se mi nepodarilo splnit jsou:
+Pozadavky, ktere se mi nepodarilo(kvuli zrejmym pricinam) splnit jsou:
 
 *  Média - Audio/Video
 *  Media queries
