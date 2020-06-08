@@ -18,7 +18,7 @@ then the game is running on localhost:8000
 
 
 # About
-he CORONA DEFENSE game is a tower defense in which you fight against the evil coronavirus. 
+The CORONA DEFENSE game is a tower defense in which you fight against the evil coronavirus. 
 Your goal is to prevent the virus from reaching and destroying the medicine. You have to set up towers. There are two types of towers: some kill the virus, others slow it down.
 
 Click on the tower, then on the green field. And defeat the terrible infection!
