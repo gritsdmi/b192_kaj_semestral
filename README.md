@@ -3,7 +3,7 @@
 ## Prerequisites:
 node.js
 
-parcel
+parcel-bundler
 
 ## How to install
 (npm install -g parcel-bundler)
