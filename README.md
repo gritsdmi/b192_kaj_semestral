@@ -22,3 +22,9 @@ he CORONA DEFENSE game is a tower defense in which you fight against the evil co
 Your goal is to prevent the virus from reaching and destroying the medicine. You have to set up towers. There are two types of towers: some kill the virus, others slow it down.
 
 Click on the tower, then on the green field. And defeat the terrible infection!
+
+
+### To teacher
+
+Bohizel z casovych duvodu se mi nepodarzilo splnit project v cas, 
+a kvuki tomu hra vypada trohcu nekonzistentni, trochu drsne a jsou tam bugy
