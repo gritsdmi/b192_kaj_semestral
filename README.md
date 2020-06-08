@@ -15,4 +15,3 @@ npm start
 then the game is running on localhost:8000
 
 <hr>
-Or its aviable on  <a href= "localhost:8000"> heroku</a>
