@@ -42,4 +42,4 @@ Pozadavky, ktere se mi nepodarilo splnit jsou:
 *  Ovládání medií
 
 Zbyle, podle mne, vporadku.
-Taky jsem se snazil prinest hezkou grafiku, "for complete immersion" vim ze to neni hodnoceno, ale doufam ze se vam to bude libit
+Taky jsem se snazil prinest hezkou grafiku, "for complete immersion" vim ze to neni hodnoceno, ale doufam ze se Vam to bude libit
