@@ -1,0 +1,25 @@
+{
+	"lvls" :
+		{		
+			"lvl_1" : {
+				"fileName" : "assets/Level_1_1.json",
+				"tilesetImage" : "assets/1.png",
+				"tilesetName" : "1",
+				"internalTilesetName" : "tiles",
+				"internalLvlName" : "lvl_1",
+				"collisionsTilesId" : [0,1,2],
+				"layers" : ["floor","walls"]
+			},
+			"lvl_2" : {
+				"fileName" : "assets/level_2.json",
+				"tilesetImage" : "assets/1.png",
+				"tilesetName" : "1",
+				"internalTilesetName" : "tiles",
+				"internalLvlName" : "lvl_2",
+				"collisionsTilesId" : [0,1,2],
+				"layers" : ["floor","walls"]
+			}
+		},
+
+	"tileScale" : "0.5",
+}

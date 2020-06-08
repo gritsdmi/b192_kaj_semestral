@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="17" height="8" tilewidth="160" tileheight="160" infinite="0" nextlayerid="4" nextobjectid="38">
+ <editorsettings>
+  <export target="level_2.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="1" tilewidth="160" tileheight="160" tilecount="9" columns="3">
+  <image source="1.png" width="480" height="480"/>
+ </tileset>
+ <layer id="1" name="floor" width="17" height="8">
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAABAAAAAgAAAAUAAAAAAAAABAAAAAIAAAACAAAABQAAAAAAAAAHAAAAAAAAAAAAAAAAAAAABAAAAAUAAAAAAAAAAwAAAAAAAAAAAAAAAwAAAAIAAAAGAAAAAAAAAAAAAAADAAAAAgAAAAIAAAACAAAAAgAAAAIAAAAGAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAADAAAABQAAAAAAAAAAAAAABAAAAAIAAAACAAAAAgAAAAUAAAAAAAAAAAAAAAAAAAADAAAAAgAAAAIAAAAFAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAABAAAAAYAAAAAAAAAAgAAAAYAAAAAAAAAAAAAAAAAAAADAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAA==
+  </data>
+ </layer>
+ <layer id="2" name="walls" width="17" height="8">
+  <data encoding="base64">
+   AQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAAAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAEAAAABAAAAAAAAAAAAAAABAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAAAAAAEAAAABAAAAAQAAAAEAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAQAAAAEAAAAAAAAAAQAAAAEAAAABAAAAAAAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAAAAAABAAAAAAAAAAAAAAABAAAAAAAAAAAAAAABAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAAAAAAAAQAAAAEAAAABAAAAAQAAAA==
+  </data>
+ </layer>
+ <objectgroup id="3" name="path">
+  <object id="14" type="move" x="195" y="996" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="15" type="move" x="198.5" y="683" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="18" type="move" x="833.5" y="691" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="19" type="move" x="843.5" y="1006" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="4"/>
+   </properties>
+  </object>
+  <object id="20" type="move" x="1309.5" y="995" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="5"/>
+   </properties>
+  </object>
+  <object id="21" type="move" x="2279.14" y="1007.3" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="6"/>
+   </properties>
+  </object>
+  <object id="22" type="move" x="2273.68" y="844.879" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="7"/>
+   </properties>
+  </object>
+  <object id="23" type="move" x="2440.35" y="838.273" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="8"/>
+   </properties>
+  </object>
+  <object id="24" type="move" x="2438.05" y="525.121" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="9"/>
+   </properties>
+  </object>
+  <object id="25" type="move" x="2281.5" y="528.636" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="10"/>
+   </properties>
+  </object>
+  <object id="26" type="move" x="2277.68" y="204.394" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="11"/>
+   </properties>
+  </object>
+  <object id="27" type="move" x="2115.14" y="207" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="12"/>
+   </properties>
+  </object>
+  <object id="28" name="endPoint" type="end" x="58" y="228">
+   <point/>
+  </object>
+  <object id="29" type="move" x="2111.5" y="361" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="13"/>
+   </properties>
+  </object>
+  <object id="30" type="move" x="1173.14" y="366.03" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="13"/>
+   </properties>
+  </object>
+  <object id="31" type="move" x="1162.59" y="207" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="14"/>
+   </properties>
+  </object>
+  <object id="32" type="move" x="676.409" y="208.333" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="15"/>
+   </properties>
+  </object>
+  <object id="33" type="move" x="684.773" y="362.394" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="34" type="move" x="362.591" y="360.939" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="17"/>
+   </properties>
+  </object>
+  <object id="35" type="move" x="350.591" y="212.818" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="18"/>
+   </properties>
+  </object>
+  <object id="36" type="move" x="25.6212" y="209.424" width="85" height="66">
+   <properties>
+    <property name="count" type="int" value="19"/>
+   </properties>
+  </object>
+  <object id="37" name="spawnPoint" type="spawn" x="-92.8485" y="1041.45">
+   <point/>
+  </object>
+ </objectgroup>
+</map>

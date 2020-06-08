@@ -1,6 +1,6 @@
 {
-	"name": "kak-semestral",
-	"version": "0.0.1",
+	"name": "kaj-semestral",
+	"version": "0.0.2",
 	"description": "get started",
 	"scripts": {
 		"start": "parcel src/index.html -p 8000",
@@ -20,7 +20,8 @@
 		"minimist": ">=1.2.2"
 	},
 	"dependencies": {
-		"phaser": "^3.22.0"
+		"bullets": "^0.2.2",
+		"phaser": "^3.23.0"
 	},
 	"parcelCleanPaths": [
 		"dist"
@@ -28,5 +29,8 @@
 	"staticFiles": {
 		"staticPath": "public",
 		"watcherGlob": "**"
+	},
+	"engines": {
+		"node": "14.x"
 	}
 }

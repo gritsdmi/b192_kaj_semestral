@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="10" height="8" tilewidth="160" tileheight="160" infinite="0" nextlayerid="7" nextobjectid="27">
+ <editorsettings>
+  <export target="../Level_1_1.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="pixel_em" tilewidth="160" tileheight="160" tilecount="8" columns="4">
+  <image source="../PixelArt.png" width="640" height="320"/>
+ </tileset>
+ <layer id="2" name="floor" width="10" height="8">
+  <data encoding="base64">
+   BwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAA=
+  </data>
+ </layer>
+ <layer id="1" name="walls" width="10" height="8">
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAAAAAUAAAA=
+  </data>
+ </layer>
+ <objectgroup id="5" name="path">
+  <object id="16" name="1" type="move" x="320" y="0" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="17" name="2" type="move" x="320" y="1120" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="18" name="3" type="move" x="640" y="1120" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="19" name="4" type="move" x="640" y="0" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="4"/>
+   </properties>
+  </object>
+  <object id="20" name="5" type="move" x="960" y="0" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="5"/>
+   </properties>
+  </object>
+  <object id="21" name="6" type="move" x="960" y="1120" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="6"/>
+   </properties>
+  </object>
+  <object id="22" name="7" type="move" x="1280" y="1120" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="7"/>
+   </properties>
+  </object>
+  <object id="23" name="8" type="move" x="1280" y="0" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="8"/>
+   </properties>
+  </object>
+  <object id="24" name="9" type="move" x="1440" y="0" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="9"/>
+   </properties>
+  </object>
+  <object id="25" name="spawnPoint" type="spawn" x="78" y="1044">
+   <point/>
+  </object>
+  <object id="26" name="0" type="move" x="0" y="0" width="160" height="160">
+   <properties>
+    <property name="count" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer id="6" name="path" width="10" height="8">
+  <data encoding="base64">
+   CAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=
+  </data>
+ </layer>
+</map>
