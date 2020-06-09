@@ -1,7 +1,8 @@
 import Tower from "../objects/Tower"
 import SlowBullet from "../objects/bullets/SlowBullet"
 
-export default class CommonTower extends Tower{
+//this class represents tower whitch shoot slow bullets
+export default class SlowTower extends Tower{
 	constructor(scene,x,y){
 		super(scene,x,y,'tower1')
 		this.radius = 200
@@ -21,14 +22,14 @@ export default class CommonTower extends Tower{
 		})
 	}
 
+	//create slowBullet
 	createBullet(tower,object){
-		// console.log('create from commonTower.js')
 		let bullet = new SlowBullet(this.scene,tower,object)
 		this.scene.bullets.add(bullet)
 	}
 
+	//call super's method
 	controlCollider(tower){
-		// console.log("con col slow")
 		super.controlCollider(tower)
 	}
 }

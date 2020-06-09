@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 
-
+//class tower represents tower object
+//this class will be extended by SlowTower and CommonTower
 export default class Tower extends Phaser.GameObjects.Sprite{
 	constructor(scene,x,y,image){
 		super(scene,x,y,image)
@@ -13,18 +14,8 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 		this.setScale(scene.myConfig.tileScale)//scales texture and body
 		this.active = true
 		this.placable = true
-		this.startPosX = x
-		this.startPosY = y
 		this.price = 0
 
-
-		let letters = "test"
-		let text = this.scene.add.text(x-35, y + 30, letters);
-	    text.font = "Arial";
-	    // text.setOrigin(0.5);
-	    text.setText( "another")
-		this.text = text
-		
 		this.shootDelay = 1000;
 		this.scene.time.addEvent({
 			delay: this.shootDelay,
@@ -36,21 +27,8 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 		})
 	}
 
-	update(){
-		this.updateText()
-	}
 
-	updateText(){
-		if(this.active == true){
-	    	this.text.setText( "active")
-			this.clearTint()
-		} else if(this.active == false) {
-	    	this.text.setText( "non active")
-		    this.setTint(0x333333);
-		}
-		this.text.setPosition(this.x-35,this.y+30)
-	}
-
+	//"search" the viruses and shot to them
 	controlCollider(tower){
 		let collidedObj = this.scene.physics.overlapCirc(this.x,this.y,this.radius,true,false)
 		if(tower.active == true){
@@ -63,19 +41,10 @@ export default class Tower extends Phaser.GameObjects.Sprite{
 		}
 	}
 
-	createBullet(){
-		console.log('create from tower.js')
-	}
+	//do nothing
+	createBullet(){}
 
-	resetPosition(){
-		this.setX (this.startPosX)
-		this.setY (this.startPosY)
-	}
-	
-	resetPlacable(bool){
-		this.placable = bool 
-	}
-
+	//return price
 	getPrice(){
 		return this.price
 	}

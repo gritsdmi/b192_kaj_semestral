@@ -1,6 +1,7 @@
 import Tower from "../objects/Tower"
 import CommonBullet from "../objects/bullets/CommonBullet"
 
+//this class represents tower whitch shoot common bullets
 export default class CommonTower extends Tower{
 	constructor(scene,x,y){
 		super(scene,x,y,'tower')
@@ -20,8 +21,8 @@ export default class CommonTower extends Tower{
 		})
 	}
 
+	//create slowBullet
 	createBullet(tower,object){
-		// console.log('create from commonTower.js')
 		let bullet = new CommonBullet(this.scene,tower,object)
 		this.scene.bullets.add(bullet)
 	}

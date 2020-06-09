@@ -1,3 +1,6 @@
+
+//in this file wrote logic for animate viruses in main menu
+//finction's names describes that happens inside them 
 $(document).ready(function() {
     createObjects()
     let childs = document.getElementById("img_bg").children
@@ -26,7 +29,6 @@ function createObjects(){
 
 function makeNewPosition($container) {
 
-    // Get viewport dimensions (remove the dimension of the div)
     var h = $container.height() - 50;
     var w = $container.width() - 50;
 

@@ -1,5 +1,6 @@
+//script - starter my game
+//has config object and function-starter
 import Phaser from 'phaser'
-
 import GameScene from './scenes/GameScene'
 
 const config = {
@@ -10,7 +11,7 @@ const config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			debug : true,
+			debug : false,
 		}
 	},
 	scale: {
@@ -21,7 +22,6 @@ const config = {
 }
 
 export function startGame(){
-	// export default new Phaser.Game(config)
 	const game = new Phaser.Game(config);
 }
 
@@ -36,6 +36,5 @@ export function startGame(){
 // 1) levelovani: (2 - 3 ruzne mapy) ulozene ve formatu JSON
 // 2) ruzne typy nepratelu se budou lisit poctem HP a ryclosti pohybu
 // NICE TO HAVE:
-// 1) highscore: odlisovani jednotlivych hracu podle jmena a ukladani jejich score do souboru
 // "
 

@@ -1,3 +1,6 @@
+//file contains logic for input field placed in main menu
+//in this file I use Local Storage API
+
 let inputField = document.getElementsByClassName("login")[0]
 
 let hello = document.getElementsByClassName("hello")[0]

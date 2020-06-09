@@ -1,8 +1,9 @@
-import Tower from "../objects/Tower"
 import CommonTower from "../objects/CommonTower"
 import SlowTower from "../objects/SlowTower"
 import Phaser from 'phaser'
 
+
+//tower controller exist for handle user's clicks and creating towers  
 export default class TowerController extends Phaser.GameObjects.GameObject{
 	constructor(scene){
 		super(scene,"towerController")
@@ -15,23 +16,26 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 		this.scene.scoreLabel.add(500)
 	}
 
+	//add price text to scene
 	makeTextPrice(tower){
 		let price = "Price ".concat(tower.getData("price"))
 		let text = this.scene.add.text(tower.x-35, tower.y + 50, price)
 		return text
 	}
 
+	//main function in this class
+	//creates "tower" buttons and event handlers
 	createUITowers(){
 
 		var tower1 = this.scene.add.sprite(120, 760, 'tower').setInteractive({ cursor: 'pointer' });
 		var tower2 = this.scene.add.sprite(200, 760, 'tower1').setInteractive({ cursor: 'pointer' });
 
-		tower1.setScale(this.scene.myConfig.tileScale)//scales texture and body
-		tower2.setScale(this.scene.myConfig.tileScale)//scales texture and body
+		tower1.setScale(this.scene.myConfig.tileScale)
+		tower2.setScale(this.scene.myConfig.tileScale)
 		tower1.setData({price:"20"})
 		tower2.setData({price:"30"})
-		let textPrice1 = this.makeTextPrice(tower1)
-		let textPrice2 = this.makeTextPrice(tower2)
+		this.makeTextPrice(tower1)
+		this.makeTextPrice(tower2)
 		this.towers.push(tower1)
 		this.towers.push(tower2)
 
@@ -108,10 +112,12 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 		return [tower1,tower2]
 	}
 
+
 	resetScale(obj){
 		obj.setScale(this.scene.myConfig.tileScale)
 	}
 
+	//gets centr of tile above pointer placed
 	getTileCoords(pointer){
 		let retX = 40
 		let retY = 40
@@ -123,6 +129,8 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 		return {x:retX, y:retY}
 	}
 
+	//palce chosen tower
+	//type of choden tower stored in this.actualSelect variable 
 	placeTower(pointer){
 		let pos = this.getTileCoords(pointer)
 		if(this.actualSelect != ""){
@@ -138,6 +146,9 @@ export default class TowerController extends Phaser.GameObjects.GameObject{
 
 	}
 
+	//standart (for this library) update method
+	//aditional functionality is controling actual player's coins amount
+	//and deactivating buttons if amount is low
 	update(){
 		if(this.scene.scoreLabel.getScore() < this.towers[0].getData("price")){
 			this.towers[0].setTint(0x333333)

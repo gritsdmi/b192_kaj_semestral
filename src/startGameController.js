@@ -1,5 +1,9 @@
 import { startGame } from "./main.js";
 
+//script handler
+//adds event handlers to buttons which starts game
+//pass lvl name (stored in Local Storage) to game engine
+
 function addDataToLocalStorage(argument) {
 	localStorage.setItem("lvl", argument.id)
 	

@@ -1,3 +1,7 @@
+
+// script handler online/offline indicator
+// implement Offline application requirement and JS prace se SVG
+
 let circle = document.getElementById("circle")
 let child = document.createElement("p")
 

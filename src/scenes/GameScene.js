@@ -13,10 +13,13 @@ import End from "../objects/End"
 
 const DUDE_KEY = 'dude'
 
+//main main class
+//gameloop
+//main scene
+//stores most of variables, physics etc.
 export default class GameScene extends Phaser.Scene{
 	constructor(){
 		super("GameScene")
-		this.player = undefined
 		this.controls = undefined
 		this.scoreLabel = undefined
 		this.bombSpawner = undefined
@@ -48,7 +51,10 @@ export default class GameScene extends Phaser.Scene{
 	}
 
 	preload(){
-		this.myConfig = myConfig
+		// this conf file, in future, 
+		//will contain all data for fine tunung the Game
+		//unfortunately time has passed...
+		this.myConfig = myConfig 
 
 		// TODO create function to load all lvls
 		this.load.image('tiles', 'assets/1.png')
@@ -63,11 +69,13 @@ export default class GameScene extends Phaser.Scene{
 		this.load.image('bullet1','assets/bullet1.png')
 		this.load.image('end','assets/base.png',80,80)
 
+		//using Local Storage API for sets choosen lvl, and for name  
 		this.loadLvl = localStorage.getItem("lvl")
 		if(this.loadLvl == undefined){
 			this.loadLvl = 'lvl_2'
 		}
 
+		//using Local Storage API for pass user name  
 		this.playerName = localStorage.getItem("name")
 		if(this.playerName == undefined){
 			this.playerName = "Guest"
@@ -83,48 +91,22 @@ export default class GameScene extends Phaser.Scene{
 
 		const tileSize = 160
 		this.mainScale = config.tileScale
-		// const loadedMap 
-		// const lvl_2 = this.make.tilemap({ key: 'lvl_2' });
 		this.map = this.make.tilemap({ key: this.currentLvlId });
 
-		//json
-		// const map  = this.make.tilemap({ key: 'map' });
-		// const tileset = this.map.addTilesetImage('pixel_em','tiles',tileSize,tileSize)
 		const tileset = this.map.addTilesetImage('1','tiles',tileSize,tileSize)
 
 		// from json
 		const floorLayer = this.map.createStaticLayer("floor", tileset,0,0)
-		this.wallsLayer = this.map.createDynamicLayer("walls", tileset,0,0)//lol dont produce error
+		this.wallsLayer = this.map.createDynamicLayer("walls", tileset,0,0)
 		floorLayer.setScale(this.mainScale,this.mainScale)
 		this.wallsLayer.setScale(this.mainScale,this.mainScale)
 
-///////////////// Tiles collisoins rules //////////////////////
-		// wallsLayer.setCollisionByProperty({ collides: true }) //doesnt work STILL
-		// this.wallsLayer.setCollisionByExclusion([-1])
-		// wallsLayer.setCollisionBetween(0, 4); //json not work to
-
+		this.scoreLabel = this.createScoreLabel(16, 16, 0, this.currentLvlId)
 ////////////// PATH_OBJECTS_LAYER ////////////////
 		this.pathLayerObjects = this.map.getObjectLayer('path')['objects']
-		// console.log(pathLayerObjects) //points is here!!!!!!!!
 		this.pathLayerObjects = this.createPathPointsForEnemies()
-//////////////////////////////////////////////////////////
-		
-		this.player = this.createPlayer()
-		this.scoreLabel = this.createScoreLabel(16, 16, 0, this.currentLvlId)
-		this.cursors = this.input.keyboard.createCursorKeys()
-		//===================
-
-		// this.physics.add.collider(this.player, this.wallsLayer)
-
-		// const debugGraphics = this.add.graphics().setAlpha(0.75);
-		// 	this.wallsLayer.renderDebug(debugGraphics, {
-		// 	tileColor: null, // Color of non-colliding tiles
-		// 	collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-		// 	faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-		// });
 
 ////////// CREATING ENEMIES ////////// 
-
 		this.enemySpawner = new EnemySpawner(this,this.findSpawnPoint());
 		this.enemies = this.physics.add.group({classType:Enemy, runChildUpdate:true})
 
@@ -138,24 +120,20 @@ export default class GameScene extends Phaser.Scene{
 		this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true })
 		this.physics.add.overlap(this.enemies,this.bullets,this.hit)
 
-/////////// MARKER /////////////
-		// let markerBlankLayer = this.map.createBlankDynamicLayer('layer1',tileset)
-		// markerBlankLayer.setScale(this.mainScale)
-		// this.marker = this.add.graphics()
-		// this.marker.lineStyle(5, 0xffffff, 1)
-		// this.marker.strokeRect(0, 0, this.map.tileWidth * this.wallsLayer.scaleX, this.map.tileHeight * this.wallsLayer.scaleY);
-////////// END /////////////////
+////////// END_CASTLE /////////////////
 		this.end = this.createEnd()
 		this.physics.add.overlap(this.enemies,this.end,this.end.hit)
 		this.gameOverText = this.add.text(300,500,"game over! click mouse to go to main menu /n TODO stop all timer events")
 		this.gameOverText.setVisible(false)
 
+////////// MANIPUATING BUTTONS  ////////////
 		this.buttonsCountainer = this.createContainer()
 		this.mainMenuButton = this.createMainMenuButton()
 		this.restartButton = this.createRestartButton()
 
 	}
 
+	//creates HTML div for pair of buttons
 	createContainer(){
 		let existed = document.getElementById("#buttonsContainer")
 		if(existed != undefined){
@@ -170,9 +148,9 @@ export default class GameScene extends Phaser.Scene{
 		container.style.zIndex = 5
 
 		return container
-		
 	}
 
+	//creates HTML button to get main menu
 	createMainMenuButton(){
 		let existed = document.getElementById("mainMenuButton")
 		if(existed != undefined){
@@ -183,7 +161,6 @@ export default class GameScene extends Phaser.Scene{
 		
 		let mainMenuButton = document.createElement("div")
 		mainMenuButton.setAttribute("class","button")
-		// mainMenuButton.classList.add("canvas_button_hook")
 		mainMenuButton.setAttribute("id","mainMenuButton")
 		mainMenuButton.appendChild(document.createElement('p'))
 		mainMenuButton.style.zIndex = 5
@@ -198,6 +175,7 @@ export default class GameScene extends Phaser.Scene{
 		return mainMenuButton
 	}
 
+	//creates HTML button to hard reset current level
 	createRestartButton(){
 		let existed = document.getElementById("restartButton")
 		if(existed != undefined){
@@ -227,17 +205,16 @@ export default class GameScene extends Phaser.Scene{
 		}
 
 		return restartButton
-
 	}
 
-
+	//creates "Castle" End.js
 	createEnd(){
 		let end = new End(this,this.findEndPoint())
-		//error here
-		console.log(end.hp)
 		return end
 	}
 
+	//function invokes when bullet hit enemy
+	//destroy bullet and depend on bullet's type cause effect(damage or slow)
 	hit(enemy,bullet){
 		if(bullet == undefined) return
 
@@ -259,6 +236,8 @@ export default class GameScene extends Phaser.Scene{
 		bullet.destroy()
 	}
 
+	//parse map, saved like JSON object
+	//find point where will spawn enemies 
 	findSpawnPoint(){
 		let spawnPoint = this.map.getObjectLayer("path")["objects"]
 			.filter(point => point.type == "spawn")
@@ -267,7 +246,9 @@ export default class GameScene extends Phaser.Scene{
 			
 		return{x:spawnPoint.x, y:spawnPoint.y}
 	}
-
+	
+	//parse map, saved like JSON object
+	//find point where will placed "Castle" End,js 
 	findEndPoint(){
 		let endPoint = this.map.getObjectLayer("path")["objects"]
 			.filter(point => point.type == "end")
@@ -277,6 +258,8 @@ export default class GameScene extends Phaser.Scene{
 		return{x:endPoint.x, y:endPoint.y}
 	}
 
+	//prepare path points for enemies
+	//points had parsed from map, saved like JSON object
 	createPathPointsForEnemies(){
 		let movePoints = this.pathLayerObjects
 		
@@ -290,45 +273,7 @@ export default class GameScene extends Phaser.Scene{
 		return movePoints
 	}
 
-	createTilemap(){
-		// csv
-		// const map = this.add.tilemap('map',tileSize,tileSize)
-		// const tileset = map.addTilesetImage('pixel','tiles',tileSize,tileSize)
-		// const layer = map.createDynamicLayer("layer",tileset,0 ,0)//wtf name==layer??
-	}
-
-	createEnemy(){
-	}
-
-	createPlayer(){
-		// const player = this.physics.add.sprite(100, 350, DUDE_KEY)
-		// player.setBounce(0.1)
-		// player.setCollideWorldBounds(true)
-
-		this.anims.create({
-			key: 'left',
-			frames: this.anims.generateFrameNumbers(DUDE_KEY, { start: 0, end: 3 }),
-			frameRate: 10,
-			repeat: -1
-		})
-		
-		this.anims.create({
-			key: 'turn',
-			frames: [ { key: DUDE_KEY, frame: 4 } ],
-			frameRate: 20
-		})
-		
-		this.anims.create({
-			key: 'right',
-			frames: this.anims.generateFrameNumbers(DUDE_KEY, { start: 5, end: 8 }),
-			frameRate: 10,
-			repeat: -1
-		})
-
-		// return player
-	}
-
-
+	//creates label which display coins 
 	createScoreLabel(x, y, score, currentLvl) {
 		const style = { fontSize: '32px', fill: '#fff' }
 		const label = new ScoreLabel(this, x, y, score, style,currentLvl)
@@ -338,13 +283,7 @@ export default class GameScene extends Phaser.Scene{
 		return label
 	}
 
-	hitBomb(player, bomb){
-		this.physics.pause()
-		player.setTint(0xff0000)
-		player.anims.play('turn')
-		this.gameOver = true
-	}
-
+	//correct end the game and return to main menu
 	closeTheGame(){
 		let frame = document.getElementsByClassName('gameframe')[0]
 		document.getElementsByTagName("canvas")[0].classList.remove("blur")
@@ -359,6 +298,8 @@ export default class GameScene extends Phaser.Scene{
 		this.sys.game.destroy(true)
 	}
 
+	//main update loop
+	//controls end game
 	update(){
 		if (this.gameOver == true){
 			document.getElementsByTagName('canvas')[0].setAttribute("class","blur")
@@ -375,42 +316,5 @@ export default class GameScene extends Phaser.Scene{
 
 			return
 		}
-
-		if (this.cursors.left.isDown){
-			// this.player.setVelocityX(-160)
-			// this.player.anims.play('left', true)
-		}else if (this.cursors.right.isDown){
-			// this.player.setVelocityX(160)
-			// this.player.anims.play('right', true)
-		}else{
-			// this.player.setVelocityX(0)
-			// this.player.anims.play('turn')
-		}
-
-		if (this.cursors.up.isDown
-		 // && this.player.body.touching.down
-		 ){
-			// this.player.setVelocityY(-130)
-		} else if(this.cursors.down.isDown){
-			// this.player.setVelocityY(130)
-		} else {
-			// this.player.setVelocityY(0)
-		}
-
-
-//////////MARKER///////////
-		// var worldPoint = this.input.activePointer.positionToCamera(this.cameras.main);
-		// // Rounds down to nearest tile
-		// var pointerTileX = this.map.worldToTileX(worldPoint.x);
-		// var pointerTileY = this.map.worldToTileY(worldPoint.y);
-
-		// // Snap to tile coordinates, but in world space
-		// this.marker.x = this.map.tileToWorldX(pointerTileX,this.cameras.main,this.wallsLayer);
-		// this.marker.y = this.map.tileToWorldY(pointerTileY,this.cameras.main,this.wallsLayer);
-
-		// this.towerController.update()
-		// this.end.update()
-
-		// console.log(localStorage.getItem('lvl'))
 	}
 }

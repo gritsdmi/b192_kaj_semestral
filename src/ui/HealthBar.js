@@ -1,10 +1,9 @@
 import Phaser from 'phaser'
 
-
+//class represents Healt Bar of End or Enemy
 export default class HealthBar {
 
-    constructor (scene, obj)
-    {
+    constructor (scene, obj){
         this.bar = new Phaser.GameObjects.Graphics(scene);
         this.owner = obj
 
@@ -19,12 +18,14 @@ export default class HealthBar {
         scene.add.existing(this.bar);
     }
 
+    //updates positon and redraw bar
     update(pos){
         this.x = pos.x - this.width/2
         this.y = pos.y - pos.height/4 -10
         this.draw();
     }
 
+    //decrease current amount
     decrease (amount) {
         this.value -= amount;
         if (this.value < 0) {
@@ -34,21 +35,20 @@ export default class HealthBar {
         return (this.value === 0);
     }
 
+    //every call redrav bar
+    //depend on current HP draw in 2 colors (green and red)
     draw () {
         this.bar.clear();
 
-        //  BG
         this.bar.fillStyle(0x000000);
         this.bar.fillRect(this.x, this.y, this.width, 10);
 
-        //  Health
         this.bar.fillStyle(0xffffff);
         this.bar.fillRect(this.x + 2, this.y + 2, this.width -4, 6);
 
         if (this.value < 30) {
             this.bar.fillStyle(0xff0000);
         } else {
-        // console.log('here')
             this.bar.fillStyle(0x00ff00);
         }
 

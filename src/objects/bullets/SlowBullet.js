@@ -1,6 +1,9 @@
 import Bullet from "../../objects/Bullet"
 
-export default class CommonBullet extends Bullet{
+//slow bullet
+//has another slowly speed than common
+//hasn't any damage (only slows enemy)
+export default class SlowBullet extends Bullet{
 	constructor(scene,tower,to) {
 		super(scene, tower, to, 'bullet1')
 		this.type = "slow"

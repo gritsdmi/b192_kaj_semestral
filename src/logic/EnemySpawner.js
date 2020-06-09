@@ -1,7 +1,7 @@
-import Phaser from 'phaser'
 import CommonEnemy from "../objects/enemies/CommonEnemy"
 import HeavyEnemy from "../objects/enemies/HeavyEnemy"
 
+//this class has logic for spawning enemies
 export default class EnemySpawner {
 
 	constructor(scene,pos,enemyKey = 'enemy'){
@@ -15,7 +15,7 @@ export default class EnemySpawner {
 		this.currentWave = 0
 		this.countOfWaves = 10
 		this.waveInProgress = false
-		this.textInfo = this.scene.add.text(pos.x+100, pos.y,this.currentWave)
+		this.textInfo = this.scene.add.text(200, 650,this.currentWave)
 		this.textInfo.setText("Wave" + (this.currentWave + 1))
 			
 		this.wavesTimer =  this.scene.time.addEvent({
@@ -30,6 +30,8 @@ export default class EnemySpawner {
 		})
 	}
 
+	//starts timer which controsl waves
+	//every wave increase viruses stats(HP)
 	spawnWave(){
 		this.textInfo.setText("Wave" + (this.currentWave + 1))
 		let enemyCount = Math.floor(++this.currentWave * this.defaultEnemiesCount * 0.5)
@@ -47,6 +49,9 @@ export default class EnemySpawner {
 		})
 	}
 
+	//spawn enemy
+	//type of enemy(heavy or common) depend on random
+	//common enemy has more chance to spawn
 	spawn(healhFactor){
 		const random = Math.random() < 0.6;
 		if(random == true){
@@ -56,6 +61,7 @@ export default class EnemySpawner {
 		}
 	}
 
+	//todo use in future
 	controlEndWave() {
 		if(Math.round(this.wavesTimer.getElapsedSeconds()) >= 40){
 			return true
